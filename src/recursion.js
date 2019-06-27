@@ -39,7 +39,28 @@ var sum = function(array) {
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
+	function flatten(arr) {
+	  return arr.reduce(function (flat, toFlatten) {
+	    return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
+	  }, []);
+	}
+
+	flatArray = flatten(array);
+
+	var total = 0;
+	var dupArray = flatArray.slice();
+	if (flatArray.length === 0) {
+		return 0;
+	}
+	if (flatArray.length === 1) {
+		return array[0];
+	}
+	if (dupArray.length > 1) {
+		total = dupArray[dupArray.length - 1] + arraySum(dupArray.slice(0, dupArray.length - 1));
+	}
+	return total;
 };
+
 
 // 4. Check if a number is even.
 var isEven = function(n) {
