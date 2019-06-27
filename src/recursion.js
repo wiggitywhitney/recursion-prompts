@@ -23,11 +23,15 @@ var factorial = function(n) {
 // sum([1,2,3,4,5,6]); // 21
 var sum = function(array) {
 	var total = 0;
+	var dupArray = array.slice();
 	if (array.length === 0) {
 		return 0;
 	}
-	for (var i = 0; i < array.length; i++) {
-		total = array[i] + sum(array[i - 1]);
+	if (array.length === 1) {
+		return array[0];
+	}
+	if (dupArray.length > 1) {
+		total = dupArray[dupArray.length - 1] + sum(dupArray.slice(0, dupArray.length - 1));
 	}
 	return total;
 };
