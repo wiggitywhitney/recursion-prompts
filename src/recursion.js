@@ -39,26 +39,40 @@ var sum = function(array) {
 // 3. Sum all numbers in an array containing nested arrays.
 // arraySum([1,[2,3],[[4]],5]); // 15
 var arraySum = function(array) {
-	function flatten(arr) {
-	  return arr.reduce(function (flat, toFlatten) {
-	    return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
-	  }, []);
-	}
+	// function flatten(arr) {
+	//   return arr.reduce(function (flat, toFlatten) {
+	//   	if (Array.isArray(toFlatten)) {
+	//   		flatten(toFlatten);
+	//   	} else { 
+	//   		return flat.concat(toFlatten);
+	//   	}
+	//   }, []);
+	// }
 
-	flatArray = flatten(array);
+	// flatArray = flatten(array);
 
-	var total = 0;
-	var dupArray = flatArray.slice();
-	if (flatArray.length === 0) {
+	// var total = 0;
+	// var dupArray = flatArray.slice();
+	// if (flatArray.length === 0) {
+	// 	return 0;
+	// }
+	// if (flatArray.length === 1) {
+	// 	return array[0];
+	// }
+	// if (dupArray.length > 1) {
+	// 	total = dupArray[dupArray.length - 1] + arraySum(dupArray.slice(0, dupArray.length - 1));
+	// }
+	// return total;
+
+	if (array.length === 0) {
 		return 0;
+	} else {
+		if (Array.isArray(array[0])) {
+			return arraySum(array[0]) + arraySum(array.slice(1));
+		} else {
+			return array[0] + arraySum(array.slice(1));
+		}
 	}
-	if (flatArray.length === 1) {
-		return array[0];
-	}
-	if (dupArray.length > 1) {
-		total = dupArray[dupArray.length - 1] + arraySum(dupArray.slice(0, dupArray.length - 1));
-	}
-	return total;
 };
 
 
@@ -123,7 +137,7 @@ var range = function(x, y) {
 
 	if (y < x) {
 		if (x - y === 2) {
-			return [y + 1]
+			return [y + 1];
 		} else {
 			var result = range(x, y + 1);
 			result.push(y + 1);
@@ -138,6 +152,13 @@ var range = function(x, y) {
 // exponent(4,3); // 64
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
+	if (exp === 0) {
+		return 1;
+	} else if (exp > 0) {
+		return base * exponent(base, exp - 1);
+	} else {
+		return exponent(base, exp + 1) / base;
+	}
 };
 
 // 8. Determine if a number is a power of two.
@@ -145,14 +166,37 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
+	if (n === 0) {
+		return false;
+	} else if (n === 1) {
+		return true;
+	} else if (n % 2 === 0) {
+		return powerOfTwo(n / 2);
+	} else {
+		return false;
+	}
 };
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
+	if (string.length === 0) {
+		return '';
+	} else { 
+		return reverse(string.slice(1)) + string[0];
+	}
+	
 };
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+	string = string.toUpperCase();
+	if (string.length <= 1) {
+		return true;
+	} else if (string[0] === string[string.length - 1]) {
+		return palindrome(string.slice(1, -1));
+	} else {
+		return false;
+	}
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
